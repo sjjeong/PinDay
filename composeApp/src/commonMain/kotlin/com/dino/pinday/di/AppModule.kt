@@ -5,6 +5,7 @@ import com.dino.pinday.data.db.PinDayDatabase
 import com.dino.pinday.data.repository.AnniversaryRepository
 import com.dino.pinday.domain.usecase.CalculateDDayUseCase
 import com.dino.pinday.domain.usecase.GetMilestonesUseCase
+import com.dino.pinday.domain.usecase.LunarSolarConverter
 import com.dino.pinday.ui.add.AddEditViewModel
 import com.dino.pinday.ui.detail.DetailViewModel
 import com.dino.pinday.ui.home.HomeViewModel
@@ -21,6 +22,7 @@ val appModule = module {
     single { AnniversaryRepository(get()) }
     single { CalculateDDayUseCase() }
     single { GetMilestonesUseCase() }
+    single { LunarSolarConverter }
 
     viewModel { HomeViewModel(get(), get()) }
     viewModel { params -> AddEditViewModel(params.getOrNull(), get(), get()) }
