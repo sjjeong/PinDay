@@ -2,6 +2,7 @@ package com.dino.pinday.ui.onboarding
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dino.pinday.data.preferences.AppPreferences
 import com.dino.pinday.data.repository.AnniversaryRepository
 import com.dino.pinday.domain.model.Anniversary
 import com.dino.pinday.domain.model.OnboardingSuggestion
@@ -31,6 +32,7 @@ data class OnboardingUiState(
 
 class OnboardingViewModel(
     private val repository: AnniversaryRepository,
+    private val appPreferences: AppPreferences,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(OnboardingUiState())
@@ -69,6 +71,11 @@ class OnboardingViewModel(
         }
     }
 
+    fun skip(onComplete: () -> Unit) {
+        appPreferences.setOnboardingComplete()
+        onComplete()
+    }
+
     fun save(onComplete: () -> Unit) {
         _uiState.update { it.copy(isSaving = true) }
         viewModelScope.launch {
@@ -99,6 +106,7 @@ class OnboardingViewModel(
                 )
                 repository.insert(anniversary)
             }
+            appPreferences.setOnboardingComplete()
             _uiState.update { it.copy(isSaving = false) }
             onComplete()
         }

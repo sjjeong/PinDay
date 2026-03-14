@@ -161,7 +161,7 @@ fun OnboardingScreen(
         Spacer(Modifier.height(8.dp))
         if (uiState.selected.isNotEmpty()) {
             OutlinedButton(
-                onClick = onComplete,
+                onClick = { viewModel.skip(onComplete) },
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text("건너뛰기")

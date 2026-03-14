@@ -2,6 +2,7 @@ package com.dino.pinday.di
 
 import com.dino.pinday.data.db.DriverFactory
 import com.dino.pinday.data.db.PinDayDatabase
+import com.dino.pinday.data.preferences.AppPreferences
 import com.dino.pinday.data.repository.AnniversaryRepository
 import com.dino.pinday.domain.usecase.CalculateDDayUseCase
 import com.dino.pinday.domain.usecase.GetMilestonesUseCase
@@ -20,6 +21,7 @@ val appModule = module {
     single { get<DriverFactory>().createDriver() }
     single { PinDayDatabase(get()) }
     single { AnniversaryRepository(get()) }
+    single { AppPreferences(get()) }
     single { CalculateDDayUseCase() }
     single { GetMilestonesUseCase() }
     single { LunarSolarConverter }
@@ -27,5 +29,5 @@ val appModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel { params -> AddEditViewModel(params.getOrNull(), get(), get()) }
     viewModel { params -> DetailViewModel(params.get(), get(), get(), get()) }
-    viewModel { OnboardingViewModel(get()) }
+    viewModel { OnboardingViewModel(get(), get()) }
 }
